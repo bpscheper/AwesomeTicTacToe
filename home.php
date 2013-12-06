@@ -35,6 +35,7 @@ echo '<td><div><a href="rules.php"><img src="Pictures/Rules.jpg" alt="Rules">
 	</td></tr><tr>';
 echo '<td><div><a href="description.php"><img src="Pictures/Description.jpg" 
 	alt="Description"></a></div></td></tr><tr>';
+
 echo '<td><div><a href="gameboard.html"><img src="Pictures/Play.jpg" 
 	alt="Start Playing!"></a></div></td><td><img 
 	src="Pictures/Picture2.jpg" alt="Example 2"></td></tr></table></p>';
