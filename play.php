@@ -1,7 +1,6 @@
 <?php
 
 session_start();
-$tic = 1;
 
 $refer = $_SERVER['HTTP_REFERER'];
 # means the previous page determined the size of board. 
@@ -15,36 +14,16 @@ if (strpos($refer, "board_size.html") != false) {
 	}
 	$_SESSION['game_state'] = $game_state;
 	$_SESSION['user'] = 0;
-	$_SESSION['computer'] = 0;
-
-	
+	$_SESSION['computer'] = 0;	
 } else {
-
-	if ($_POST['cell'] != "" && $tic == 1 ) {
-echo 'TIc: '. $tic;
+	if ($_POST['cell'] != "") {
 		$move = $_POST['cell'];
 		$height = $move % $_SESSION['height'];
 		$_SESSION['game_state'][$move] = "U";
-		$tic = 2;
-echo 'Tic end: ' . $tic;
+		computer_move($_SESSION['game_state']);
 	}
-
-
-else{
-echo 'else tic;' .$tic;
- if($_POST['cell'] != "" && $tic == 2 ) {
-echo 'Tic c:' . $tic;
-        	$move = $_POST['cell'];
-                $height = $move % $_SESSION['height'];
-                $tic = 1;
-echo 'Tic c end:' . $tic;
-$_SESSION['game_state'][$move] = "C";
-                
-       
-}	
 }
 $board = $_SESSION['game_state'];
-
 
 $user_score = calculate_score($board, "U");
 $computer_score = calculate_score($board, "C");
@@ -68,7 +47,6 @@ for ($i = 0; $i < $_SESSION['height']; $i++) {
 	if ($long_row_user > $longest) 
 		$longest = $long_row_user;
 }
-
 
 if (strpos($board, "C") == false) {
         $computer_score = 0;
@@ -113,9 +91,25 @@ echo '<form name="goHome" method="post" action="home.php">';
 echo '<input type="submit" name="home" value="Home">';
 echo '</form>';
 echo '<div style="float:right;">';
-echo '<p> Score </p>';
 echo '</div>';
 
+$_SESSION['game_state'] = $board;
+
+win($board);
+
+function win($board) {
+	$user = calculate_score($board, "U");
+	$computer = calculate_score($board, "C");
+	if ((strpos($board, ".") == false) and (strpos($board, "U") == true)) {
+		echo "<br>Game Over!" . "<br>";
+		if ($user > $computer) 
+			echo "You win!";
+		else if ($computer > $user) 
+			echo "Computer Wins";
+		else 
+			echo "Tie Game!";
+	}
+}
 
 function calculate_score($board, $turn) {
 	$score = 0;
@@ -141,8 +135,6 @@ function calculate_score($board, $turn) {
 	}
 
 
-	echo 'SCORING STILL IS NOT FULLY FUNCTIONAL <br>';
-
         for ($i = 0; $i < $_SESSION['height']; $i++) {
                 $long_row = 1;
                 for ($j = 0; $j < $_SESSION['width']; $j++) {
@@ -167,5 +159,13 @@ function calculate_score($board, $turn) {
 	return $score;
 }
 
+function computer_move(&$board) {
+	for ($i = 0; $i < strlen($board); $i++) {
+		if ($board[$i] == ".") {
+			$board[$i] = "C";
+			return;
+		}
+	}
+}
 
 ?>
