@@ -1,10 +1,11 @@
 <?php
 
 session_start();
+$tic = 1;
+
 $refer = $_SERVER['HTTP_REFERER'];
 # means the previous page determined the size of board. 
 # therefore, start of game
-$tic = 1;
 if (strpos($refer, "board_size.html") != false) {
 	$_SESSION['width'] = $_POST['width'];
 	$_SESSION['height'] = $_POST['height'];
@@ -15,6 +16,7 @@ if (strpos($refer, "board_size.html") != false) {
 	$_SESSION['game_state'] = $game_state;
 	$_SESSION['user'] = 0;
 	$_SESSION['computer'] = 0;
+
 	
 } else {
 
@@ -41,8 +43,6 @@ $_SESSION['game_state'][$move] = "C";
        
 }	
 }
-}
-
 $board = $_SESSION['game_state'];
 
 
