@@ -33,7 +33,7 @@ echo '<p><table><tr>';
 echo '<td><div><a href="rules.php"><img src="Pictures/Rules.jpg" alt="Rules">
 	</a></td><td><img src="Pictures/Picture1.jpg" alt="Example 1"></div>
 	</td></tr><tr>';
-echo '<td><div><a href="description.php"><img src="Pictures/Description.jpg" 
+echo '<td><div><a href="description.html"><img src="Pictures/Description.jpg" 
 	alt="Description"></a></div></td></tr><tr>';
 echo '<td><div><a href="board_size.html"><img src="Pictures/Play.jpg" 
 	alt="Start Playing!"></a></div></td><td><img 
