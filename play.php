@@ -60,7 +60,7 @@ $gameID = $_SESSION['gameID'];
 
 echo '<div style="float:right"> Score <br><br><br><b>';
 echo 'User: ' . $user_score . '<br>';
-echo 'Computer: ' . $computer_score . '<br>';
+echo 'Computer: ' . calculate_score($board, "C")  . '<br>';
 echo '</b></div>';
 
 #sleep(10);
@@ -89,6 +89,9 @@ echo '<input type="submit" value="Submit Move">';
 echo '</form>';
 echo '<form name="goHome" method="post" action="home.php">';
 echo '<input type="submit" name="home" value="Home">';
+echo '</form>';
+echo '<form name="newGame" method="post" action="board_size.html">';
+echo '<input type="submit"  name="newgame" value="new">';
 echo '</form>';
 echo '<div style="float:right;">';
 echo '</div>';
@@ -119,16 +122,30 @@ function calculate_score($board, $turn) {
                 	$cell = $i*$_SESSION['width']+$j;
                 	$next = $cell + 1;
                 	$border = ($i+1)*$_SESSION['width']-1;
-                	if (($board[$cell] == $board[$next]) and ($cell != $border)) {
+			$previous = $cell - 1;
+			$borderp = $i * $_SESSION['width'];
+                	if (($board[$cell] == $board[$next]) || ($board[$cell] == $board[$previous]) and ($cell != $border)) {
                         	if ($board[$cell] == $turn) {
-                                	$long_row++;
+                                	
+					 if (($board[$cell] == $board[$next]) && ($board[$cell] == $board[$previous]) and ($cell != $border)) {
+                               
+                                        	$long_row++;
+                                		}		
+
+				$long_row++;
                         	}
-                	} else if (($board[$cell] != $board[$next]) and ($cell != $border)) {
+
+                	} 
+			
+
+			else if (($board[$cell] != $board[$next]) and ($cell != $border)) {
 				if ($long_row > $score) {
 					$score = $long_row;
 					$long_row = 1;
+
 				}
 			}
+			
         	}
 		if ($long_row > $score)
                 	$score = $long_row;
@@ -138,15 +155,15 @@ function calculate_score($board, $turn) {
         for ($i = 0; $i < $_SESSION['height']; $i++) {
                 $long_row = 1;
                 for ($j = 0; $j < $_SESSION['width']; $j++) {
-                        $cell = $i*$_SESSION['width']+$j;
-                        $next = $cell + $_SESSION['width'];
-                        $border = $_SESSION['height']*$_SESSION['width'];
-                        if (($board[$cell] == $board[$next]) and ($cell < $border)) {
-                                if ($board[$cell] == $turn) {
+                        $cellc = $i*$_SESSION['width']+$j;
+                        $nextc = $cellc + $_SESSION['width'];
+                        $borderc = $_SESSION['height']*$_SESSION['width'];
+                        if (($board[$cellc] == $board[$nextc]) and ($cellc < $borderc)) {
+                                if ($board[$cellc] == $turn) {
                                         $long_row++;
                                 }
-                        } else if (($board[$cell] != $board[$next]) and ($cell != $border)) {
-                                if ($long_row > $score) {
+                        } else if (($board[$cellc] != $board[$nextc]) and ($cellc <  $borderc)) {
+                               if ($long_row > $score) {
                                         $score = $long_row;
                                         $long_row = 1;
                                 }
@@ -155,6 +172,32 @@ function calculate_score($board, $turn) {
                 if ($long_row > $score)
                         $score = $long_row;
         }
+
+// diagonals left right
+	for ($i = 0; $i < $_SESSION['height']; $i++)
+{       $long_row = 1;
+	for ($j = 0; $j < $_SESSION['width']; $j++) {
+         $celld = $i * $_SESSION['width']+ $j;
+	 $dia = $i + $_SESSION['width'] + 1;
+	$borderd = ($i + 1)* $_SESSION['width'] - 1;
+	if (($board[$celld] == $board[$dia] ) and ( $celld != $borderd)){
+		if ($board[$celld] == $turn) {
+			$long_row++;
+}
+
+}  else if (($board[$celld] != $board[$dia]) and ($celld !=  $borderd)) {
+                               if ($long_row > $score) {
+                                        $score = $long_row;
+                                        $long_row = 1;
+                                }
+                        }
+ 
+   
+}
+if ($long_row > $score)
+	$score = $long_row;
+
+}
 
 	return $score;
 }
