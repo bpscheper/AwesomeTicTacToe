@@ -2,19 +2,6 @@
 
 session_start();
 
-$filepath = "/Users/home/bpsc222/www/CS485/Program/AwesomeTicTacToe";
-#$file = $filepath . "/coverage.txt";
-$file = "/Program/AwesomeTicTacToe/coverage.txt";
-
-$file = $filepath . "/coverage.txt";
-
-#echo $_SERVER['SERVER_NAME'];
-
-echo getcwd();
-
-$fp = fopen($file, "a+");
-fwrite($fp, "Start code coverage");
-
 echo '<html><body>';
 if (isset($_SESSION["username"])) {
   echo '<div style="float:right">Hello, <a href="">';
